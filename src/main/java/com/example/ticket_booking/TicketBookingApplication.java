@@ -2,7 +2,9 @@ package com.example.ticket_booking;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
+@EnableScheduling // Add this line!
 @SpringBootApplication
 public class TicketBookingApplication {
 
@@ -11,3 +13,5 @@ public class TicketBookingApplication {
 	}
 
 }
+
+

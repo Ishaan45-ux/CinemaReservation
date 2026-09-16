@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>My Tickets</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f4f9; padding: 20px; }
+        .header { display: flex; justify-content: space-between; align-items: center; background: #333; color: white; padding: 15px 20px; border-radius: 8px; margin-bottom: 30px; }
+        .header a { color: white; text-decoration: none; font-weight: bold; }
+        
+        .ticket-container { display: flex; flex-direction: column; gap: 20px; max-width: 600px; margin: 0 auto; }
+        
+        .ticket-card { background: white; border-radius: 10px; display: flex; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.1); border-left: 8px solid #28a745; }
+        .ticket-details { padding: 20px; flex: 1; }
+        .ticket-details h3 { margin: 0 0 10px 0; color: #333; }
+        .ticket-details p { margin: 5px 0; color: #555; }
+        
+        .ticket-stub { background: #eee; padding: 20px; border-left: 2px dashed #ccc; display: flex; flex-direction: column; justify-content: center; align-items: center; min-width: 120px; }
+        .seat-badge { background: #333; color: white; padding: 5px 10px; border-radius: 4px; font-weight: bold; margin-top: 10px; text-align: center; }
+        
+        .empty-state { text-align: center; color: #777; margin-top: 50px; }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h2>🎟️ My Bookings</h2>
+        <a th:href="@{/}">⬅ Back to Home</a>
+    </div>
+
+    <div class="ticket-container">
+        
+        <!-- Loop through all confirmed tickets -->
+        <div class="ticket-card" th:each="ticket : ${tickets}">
+            <div class="ticket-details">
+                <h3 th:text="${ticket.showtime.movie.title}">Movie Title</h3>
+                <p><strong>Theatre:</strong> <span th:text="${ticket.showtime.theatre.name} + ', ' + ${ticket.showtime.theatre.city}"></span></p>
+                <p><strong>Date:</strong> <span th:text="${ticket.showtime.showDate}"></span></p>
+                <p><strong>Time:</strong> <span th:text="${ticket.showtime.showTime}"></span></p>
+                <p><strong>Total Paid:</strong> ₹<span th:text="${ticket.totalAmount}"></span></p>
+            </div>
+            
+            <div class="ticket-stub">
+                <small>SEATS</small>
+                <div class="seat-badge" th:text="${ticket.seatNumbers}">A1, A2</div>
+            </div>
+        </div>
+
+        <!-- Show this if they haven't booked anything yet -->
+        <div class="empty-state" th:if="${#lists.isEmpty(tickets)}">
+            <h3>No tickets found!</h3>
+            <p>Time to book a movie.</p>
+        </div>
+
+    </div>
+
+</body>
+</html>
